@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mi Tienda - Productos artesanales</title>
+  <!-- Descripción que puede mostrar Google. Cámbiala por la tuya -->
+  <meta name="description" content="Tienda de productos artesanales. Pide por WhatsApp de forma fácil y rápida.">
+  <meta name="theme-color" content="#2e7d32">
+  <link rel="icon" href="Images/Marca.png">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <img class="logo" src="Images/Marca.png" alt="Mi Tienda">
+    <nav>
+      <button data-page="home" class="active">Home</button>
+      <button data-page="productos">Productos</button>
+      <button data-page="contacto">Contáctanos</button>
+    </nav>
+    <button id="cartBtn">🛒 <span id="cartCount">0</span></button>
+  </header>
+
+  <main>
+    <!-- HOME: escribe aquí tu información general -->
+    <section id="home" class="page active">
+      <h2>Bienvenido</h2>
+      <p>Aquí irá la información general de tu tienda (pendiente).</p>
+    </section>
+
+    <!-- PRODUCTOS -->
+    <section id="productos" class="page">
+      <div class="layout">
+        <aside><input id="search" type="search" placeholder="Buscar producto..."></aside>
+        <div id="grid" class="grid"></div>
+      </div>
+    </section>
+
+    <!-- CONTÁCTANOS: escribe aquí tus datos -->
+    <section id="contacto" class="page">
+      <h2>Contáctanos</h2>
+      <p>Nombre: (pendiente)</p>
+      <p>Teléfono: (pendiente)</p>
+      <p>Correo: (pendiente)</p>
+    </section>
+  </main>
+
+  <!-- Carrito lateral -->
+  <div id="cart">
+    <h3>Carrito <button id="closeCart">✕</button></h3>
+    <div id="cartItems"></div>
+    <button id="orderCart" class="primary">Pedir por WhatsApp</button>
+  </div>
+
+  <!-- Ventana del producto -->
+  <div id="overlay">
+    <div id="modal">
+      <button id="closeModal">✕</button>
+      <div class="gallery">
+        <button id="prev">←</button>
+        <img id="mImg" alt="">
+        <button id="next">→</button>
+      </div>
+      <div class="info">
+        <h2 id="mName"></h2>
+        <p id="mInfo"></p>
+        <p id="mPrice"></p>
+        <p><b id="mStock"></b></p>
+        <div class="actions">
+          <button id="buy" class="primary">COMPRAR</button>
+          <button id="addModal">AÑADIR AL CARRITO</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

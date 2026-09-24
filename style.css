@@ -1,0 +1,53 @@
+:root { --c: #2e7d32; --bg: #f7f7f4; --t: #222; }
+* { box-sizing: border-box; }
+body { margin: 0; font-family: system-ui, Arial, sans-serif; background: var(--bg); color: var(--t); }
+header { display: flex; align-items: center; gap: 20px; padding: 12px 24px; background: #fff; box-shadow: 0 1px 6px #0002; position: sticky; top: 0; z-index: 5; }
+.logo { height: 44px; width: auto; display: block; }
+nav { flex: 1; display: flex; gap: 8px; }
+button { cursor: pointer; border: 1px solid #ccc; background: #fff; border-radius: 8px; padding: 8px 14px; font-size: .95rem; }
+nav button.active, .primary { background: var(--c); color: #fff; border-color: var(--c); }
+main { padding: 24px; max-width: 1200px; margin: auto; }
+.page { display: none; } .page.active { display: block; }
+.layout { display: flex; gap: 24px; align-items: flex-start; }
+aside { width: 200px; position: sticky; top: 80px; }
+aside input { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 8px; }
+.grid { flex: 1; display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+.card { position: relative; aspect-ratio: 1; border-radius: 12px; overflow: hidden; background: #ddd; cursor: pointer; }
+.card > img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.hover { position: absolute; inset: 0; background: #000a; color: #fff; padding: 12px; display: flex; flex-direction: column; justify-content: center; text-align: center; gap: 6px; opacity: 0; transition: .2s; }
+.card:hover .hover { opacity: 1; }
+.tags { position: absolute; top: 8px; right: 8px; display: flex; flex-direction: column; gap: 6px; align-items: flex-end; z-index: 2; }
+.stock { background: #fff; border-radius: 6px; padding: 2px 8px; font-size: .8rem; font-weight: 700; }
+.add { padding: 4px 8px; }
+.price { position: absolute; top: 8px; left: 8px; z-index: 2; background: var(--c); color: #fff; border-radius: 6px; padding: 2px 8px; font-weight: 700; font-size: .9rem; }
+.price:empty { display: none; }
+#mPrice { font-size: 1.5rem; font-weight: 700; color: var(--c); margin: 0; }
+#cart { position: fixed; top: 0; right: -340px; width: min(320px, 85vw); height: 100%; background: #fff; box-shadow: -2px 0 10px #0004; padding: 16px; transition: .3s; z-index: 8; display: flex; flex-direction: column; }
+#cart.open { right: 0; }
+#cart h3 { display: flex; justify-content: space-between; margin: 0 0 12px; }
+#cartItems { flex: 1; overflow-y: auto; }
+.item { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid #eee; gap: 6px; }
+.item button { padding: 2px 8px; }
+#overlay { position: fixed; inset: 0; background: #000b; display: none; align-items: center; justify-content: center; z-index: 10; padding: 16px; }
+#overlay.open { display: flex; }
+#modal { position: relative; background: #fff; border-radius: 14px; width: min(900px, 100%); max-height: 90vh; overflow: auto; display: grid; grid-template-columns: 1.2fr 1fr; gap: 20px; padding: 20px; }
+#closeModal { position: absolute; top: 8px; right: 8px; }
+.gallery { display: flex; align-items: center; gap: 8px; }
+.gallery img { flex: 1; min-width: 0; width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 10px; background: #ddd; }
+.actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 16px; }
+/* Celulares y pantallas táctiles: no existe "pasar el mouse", el nombre se ve siempre */
+@media (hover: none) {
+  .hover { display: none; }
+  .card::after { content: attr(data-n); position: absolute; left: 0; right: 0; bottom: 0; background: #000a; color: #fff; padding: 6px; font-size: .85rem; text-align: center; }
+}
+@media (max-width: 600px) {
+  header { flex-wrap: wrap; gap: 8px; padding: 10px 12px; }
+  nav { order: 3; flex-basis: 100%; }
+  main { padding: 12px; }
+  .grid { gap: 10px; }
+}
+@media (max-width: 900px) {
+  .grid { grid-template-columns: repeat(2, 1fr); }
+  .layout { flex-direction: column; } aside { width: 100%; position: static; }
+  #modal { grid-template-columns: 1fr; }
+}

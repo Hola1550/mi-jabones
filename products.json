@@ -1,0 +1,20 @@
+[
+  {
+    "Name": "Jabón de Plátano",
+    "Image": "Product1.png",
+    "Images": ["jabon1.png", "jabon2.png", "jabon3.png", "jabon4.png"],
+    "Stock": 3,
+    "Price": 50,
+    "information": "Este producto contiene jabones",
+    "details": "Este producto contiene jabones que ayudan a la piel, acné y mucho más"
+  },
+  {
+    "Name": "Jabón de Avena",
+    "Image": "Product2.png",
+    "Images": ["julio1.png", "julio22.png", "julio3.png"],
+    "Stock": 5,
+    "Price": 10,
+    "information": "Jabón suave para piel sensible",
+    "details": "Jabón artesanal de avena, ideal para piel sensible."
+  }
+]
