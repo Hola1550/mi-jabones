@@ -1,6 +1,11 @@
 // ====== CONFIGURA AQUÍ ======
 // Tu número con código de país, sin + ni espacios. Ej: "5491122334455"
-const WHATSAPP = "0000000000";
+const WHATSAPP = "51999039460";
+// Sonido de los botones (archivo dentro de la carpeta Sound; cambia la extensión si es .wav u .ogg)
+const SOUND = "Sound/Sound1.mp3";
+// Música de fondo en bucle (Sound2) y su volumen: 0.1 = 10%
+const MUSIC = "Sound/Sound2.mp3";
+const MUSIC_VOLUME = 0.1;
 // ============================
 
 let products = [], cart = {}, current = null, idx = 0;
@@ -11,6 +16,36 @@ const src = f => "Images/" + f;
 // Acepta Price como 10 o como "$10"; si no hay precio, no muestra nada
 const money = v => v === undefined ? "" : (typeof v === "number" ? "$" + v : v);
 const num = v => parseFloat(String(v).replace(/[^0-9.]/g, "")) || 0;
+
+// Ofertas: "Oferta": "YES" con "Descuento": "30%"   (o "Oferta": "NO")
+const isOffer = p => { const o = String(p.Oferta ?? "NO").trim().toUpperCase(); return o !== "NO" && o !== ""; };
+const pct = p => isOffer(p) ? (parseFloat(p.Descuento) || parseFloat(p.Oferta) || 0) : 0;
+const unit = p => +(num(p.Price) * (1 - pct(p) / 100)).toFixed(2);   // precio final
+const badge = p => "OFERTA" + (pct(p) ? " -" + pct(p) + "%" : "");
+const priceHTML = p => p.Price === undefined ? "" : pct(p) ? `<s>${money(p.Price)}</s> $${unit(p)}` : money(p.Price);
+const offerHTML = p => isOffer(p) ? `<span class="oferta">${badge(p)}</span><i class="sp s1">✨</i><i class="sp s2">✨</i><i class="sp s3">✨</i>` : "";
+
+// Sonido al hacer clic en cualquier botón
+const clickSound = new Audio(SOUND);
+document.addEventListener("click", e => {
+  if (e.target.closest("button")) { clickSound.currentTime = 0; clickSound.play().catch(() => {}); }
+});
+
+// Música de fondo: el navegador bloquea el sonido automático, así que si no arranca
+// al entrar, empieza en el primer clic o toque de la persona.
+const bgm = new Audio(MUSIC);
+bgm.loop = true; bgm.volume = MUSIC_VOLUME;
+const evs = ["click", "keydown", "touchstart"];
+const startMusic = () => bgm.play().then(() => evs.forEach(e => document.removeEventListener(e, startMusic))).catch(() => {});
+startMusic();
+evs.forEach(e => document.addEventListener(e, startMusic));
+
+// Galería de Home (debajo de Pres1: Pres2, Pres3, Pres4)
+const PRES = ["Pres2.png", "Pres3.png", "Pres4.png"];
+let pi = 0;
+const showPres = () => $("#hImg").src = src(PRES[pi]);
+$("#hPrev").onclick = () => { pi = (pi - 1 + PRES.length) % PRES.length; showPres(); };
+$("#hNext").onclick = () => { pi = (pi + 1) % PRES.length; showPres(); };
 
 // Navegación entre Home / Productos / Contáctanos
 document.querySelectorAll("nav button").forEach(b => b.onclick = () => {
@@ -30,7 +65,7 @@ function render() {
     <div class="card" data-n="${esc(p.Name)}">
       <img src="${src(p.Image)}" alt="${esc(p.Name)}">
       <div class="hover"><b>${esc(p.Name)}</b><span>${esc(p.information)}</span></div>
-      <span class="price">${money(p.Price)}</span>
+      <span class="price">${priceHTML(p)}</span>${offerHTML(p)}
       <div class="tags"><span class="stock">x${p.Stock}</span><button class="add" data-n="${esc(p.Name)}">🛒</button></div>
     </div>`).join("") : "<p>Sin resultados.</p>";
 }
@@ -53,8 +88,11 @@ function addCart(n) {
 function renderCart() {
   const names = Object.keys(cart);
   $("#cartCount").textContent = names.reduce((s, n) => s + cart[n], 0);
+  const sub = n => unit(find(n)) * cart[n];
+  const total = names.reduce((s, n) => s + sub(n), 0);
+  $("#cartTotal").textContent = total ? "Total: $" + +total.toFixed(2) : "";
   $("#cartItems").innerHTML = names.length ? names.map(n => `
-    <div class="item"><span>${esc(n)}</span>
+    <div class="item"><span>${esc(n)}<br><small>${sub(n) ? "$" + +sub(n).toFixed(2) : ""}</small></span>
       <span><button data-a="-" data-n="${esc(n)}">−</button> ${cart[n]} <button data-a="+" data-n="${esc(n)}">+</button></span>
     </div>`).join("") : "<p>El carrito está vacío.</p>";
 }
@@ -74,7 +112,7 @@ function openModal(n) {
   current = find(n); idx = 0;
   $("#mName").textContent = current.Name;
   $("#mInfo").textContent = current.details || current.information;
-  $("#mPrice").textContent = money(current.Price);
+  $("#mPrice").innerHTML = priceHTML(current) + (isOffer(current) ? ` <span class="oferta static">${badge(current)}</span>` : "");
   $("#mStock").textContent = "Stock: " + current.Stock;
   showImg(); $("#overlay").classList.add("open");
 }
@@ -98,9 +136,9 @@ function order(items) {
   if (!confirm(aviso)) return;
   let total = 0;
   const lines = items.map(i => {
-    const p = find(i.name), sub = num(p.Price) * i.qty;
+    const p = find(i.name), sub = unit(p) * i.qty;
     total += sub;
-    return `- ${i.name} x${i.qty}` + (sub ? ` ($${+sub.toFixed(2)})` : "");
+    return `- ${i.name} x${i.qty}` + (sub ? ` ($${+sub.toFixed(2)})` : "") + (isOffer(p) ? " [OFERTA]" : "");
   });
   const text = "Hola, quiero pedir:\n" + lines.join("\n") + (total ? `\nTotal: $${+total.toFixed(2)}` : "");
   window.open(`https://wa.me/${WHATSAPP}?text=${encodeURIComponent(text)}`, "_blank");

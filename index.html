@@ -3,16 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Mi Tienda - Productos artesanales</title>
+  <title>Eco Jabonería - Jabones artesanales naturales</title>
   <!-- Descripción que puede mostrar Google. Cámbiala por la tuya -->
-  <meta name="description" content="Tienda de productos artesanales. Pide por WhatsApp de forma fácil y rápida.">
-  <meta name="theme-color" content="#2e7d32">
+  <meta name="description" content="Eco Jabonería: jabones artesanales hechos en Perú con ingredientes naturales como sábila, café, arroz y cúrcuma. Pide por WhatsApp.">
+  <meta name="theme-color" content="#606A4B">
   <link rel="icon" href="Images/Marca.png">
+  <!-- Google Search Console: aquí se pega la etiqueta de verificación (ver explicación) -->
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <header>
-    <img class="logo" src="Images/Marca.png" alt="Mi Tienda">
+    <img class="logo" src="Images/Marca.png" alt="Eco Jabonería">
     <nav>
       <button data-page="home" class="active">Home</button>
       <button data-page="productos">Productos</button>
@@ -24,8 +25,27 @@
   <main>
     <!-- HOME: escribe aquí tu información general -->
     <section id="home" class="page active">
-      <h2>Bienvenido</h2>
-      <p>Aquí irá la información general de tu tienda (pendiente).</p>
+      <div class="home">
+        <h2>🌿 Bienvenidos a Eco Jabonería</h2>
+        <div class="row">
+          <img class="hero" src="Images/Pres1.png" alt="Eco Jabonería">
+          <div class="home-text">
+            <p>En Eco Jabonería creemos que el cuidado de la piel también puede ser una experiencia natural, agradable y especial. Por eso elaboramos nuestros jabones de manera artesanal, utilizando ingredientes de origen natural cuidadosamente seleccionados para ofrecerte productos que puedas incorporar fácilmente a tu rutina diaria. 🌱✨</p>
+            <p>Nuestra línea cuenta con diferentes variedades, cada una elaborada con ingredientes como sábila, café, arroz y cúrcuma, conocidos por sus propiedades para el cuidado de la piel. Ya sea que busques una sensación de hidratación, una limpieza más profunda, una exfoliación suave o simplemente disfrutar de un momento de cuidado personal, encontrarás diferentes opciones para elegir según tus preferencias.</p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="home-text">
+            <p>Cada jabón es elaborado artesanalmente en Perú 🇵🇪, cuidando cada detalle durante su preparación. Queremos ofrecerte una alternativa para quienes disfrutan de productos hechos con dedicación y buscan incorporar ingredientes naturales a su día a día. 💚</p>
+            <p>✨ Conoce nuestra colección, descubre tus favoritos y dale a tu piel un momento de cuidado con Eco Jabonería.</p>
+          </div>
+          <div class="gallery">
+            <button id="hPrev">←</button>
+            <img id="hImg" src="Images/Pres2.png" alt="">
+            <button id="hNext">→</button>
+          </div>
+        </div>
+      </div>
     </section>
 
     <!-- PRODUCTOS -->
@@ -38,10 +58,12 @@
 
     <!-- CONTÁCTANOS: escribe aquí tus datos -->
     <section id="contacto" class="page">
-      <h2>Contáctanos</h2>
-      <p>Nombre: (pendiente)</p>
-      <p>Teléfono: (pendiente)</p>
-      <p>Correo: (pendiente)</p>
+      <div class="contact">
+        <h2>Contáctanos</h2>
+        <p>Nombre: Martha Muñoz</p>
+        <p>Teléfono: 999039460</p>
+        <p class="frase">Jabones para tu bienestar, hechos para consentirte y cuidar 🌱</p>
+      </div>
     </section>
   </main>
 
@@ -49,6 +71,7 @@
   <div id="cart">
     <h3>Carrito <button id="closeCart">✕</button></h3>
     <div id="cartItems"></div>
+    <div id="cartTotal" class="total"></div>
     <button id="orderCart" class="primary">Pedir por WhatsApp</button>
   </div>
 
